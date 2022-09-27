@@ -1,5 +1,6 @@
 const assert = require("assert");
-const { processSale, getProductRestockLevel } = require("../src/index");
+const { processSale, getProductRestockLevel, getSalesLastMonth } = require("../src/index");
+const salesData = require("./data")
 
 describe("Product sold - alert", () => {
   it(`send alert when product is equal to restock level`, () => {
@@ -60,4 +61,14 @@ describe("Request restock level", () => {
       7
     );
   });
+
+  it(`should return the restock level`, () => {
+    const productId = 811;
+    const querySalesData = (productId) => {return salesData}
+    assert.strictEqual(
+      getSalesLastMonth(querySalesData, productId),
+      16
+    );
+  });
 });
+
