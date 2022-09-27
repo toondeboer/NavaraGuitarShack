@@ -9,7 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mocha": "^10.0.0"
+    "mocha": "^10.0.0",
+    "prettier": "^2.7.1"
   },
   "devDependencies": {
     "nyc": "^15.1.0"
