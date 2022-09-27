@@ -1,13 +1,25 @@
-const processSale = (
+function processSale(
   getProduct,
   getProductRestockLevel,
+  getSalesLastMonth,
   sendAlert,
   productId,
   quantity
-) => {
-  if (getProduct().stock - quantity <= getProductRestockLevel()) {
+) {
+  const product = getProduct();
+  if (
+    product.stock - quantity <=
+    getProductRestockLevel(getSalesLastMonth, product)
+  ) {
     sendAlert("Please order more of product 811");
   }
-};
+}
 
-module.exports = processSale;
+function getProductRestockLevel(getSalesLastMonth, product) {
+  const salesLastMonth = getSalesLastMonth();
+  const leadTime = product.leadTime;
+  const dailySales = salesLastMonth / 30;
+  return dailySales * leadTime;
+}
+
+module.exports = { processSale, getProductRestockLevel };
