@@ -22,8 +22,11 @@ function getProductRestockLevel(getSalesLastMonth, product) {
   return dailySales * leadTime;
 }
 
-function getSalesLastMonth(querySalesData, productId) {
-  return querySalesData(productId).reduce((total, current) => total + current.quantity, 0);
+async function getSalesLastMonth(querySalesData, productId) {
+  return querySalesData(productId).reduce(
+    (total, current) => total + current.quantity,
+    0
+  );
 }
 
-module.exports = { processSale, getProductRestockLevel, getSalesLastMonth};
+module.exports = { processSale, getProductRestockLevel, getSalesLastMonth };

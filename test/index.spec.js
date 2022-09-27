@@ -1,6 +1,10 @@
 const assert = require("assert");
-const { processSale, getProductRestockLevel, getSalesLastMonth } = require("../src/index");
-const salesData = require("./data")
+const {
+  processSale,
+  getProductRestockLevel,
+  getSalesLastMonth,
+} = require("../src/index");
+const salesData = require("./data");
 
 describe("Product sold - alert", () => {
   it(`send alert when product is equal to restock level`, () => {
@@ -64,11 +68,31 @@ describe("Request restock level", () => {
 
   it(`should return the restock level`, () => {
     const productId = 811;
-    const querySalesData = (productId) => {return salesData}
-    assert.strictEqual(
-      getSalesLastMonth(querySalesData, productId),
-      16
-    );
+    const querySalesData = (productId) => {
+      return salesData;
+    };
+    assert.strictEqual(getSalesLastMonth(querySalesData, productId), 16);
+  });
+
+  it(`should query sales data`, async () => {
+    const productId = 811;
+    const querySalesData = async (productId) => {
+      let data = [];
+      await fetch(
+        `https://gjtvhjg8e9.execute-api.us-east-2.amazonaws.com/default/sales?productId=${productId}&startDate=7%2F17%2F2020&endDate=7%2F27%2F2020`
+      )
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (myJson) {
+          data = myJson;
+          // console.log(data);
+        });
+      return data;
+    };
+
+    console.log(await querySalesData(811));
+    assert.strictEqual(getSalesLastMonth(querySalesData, productId), 16);
+    // assert.strictEqual(true, true);
   });
 });
-
